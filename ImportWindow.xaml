@@ -1,0 +1,44 @@
+<Window x:Class="ProjectToPromptScanner.ImportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Import Code" Height="500" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TreeView x:Name="tvFiles" Grid.Row="0" Margin="0,0,0,10" BorderThickness="1" BorderBrush="#DDDDDD">
+            <TreeView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <Border Background="{Binding StatusColor}" CornerRadius="3" Padding="6,2" Margin="0,0,10,0" MinWidth="45">
+                                <TextBlock Text="{Binding StatusText}" Foreground="White" FontSize="11" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            </Border>
+                            <TextBlock Text="{Binding Path}" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,0,15,0"/>
+                            <TextBlock Text="{Binding ChangeSummary}" VerticalAlignment="Center" Foreground="{Binding SummaryColor}" FontWeight="Medium" FontSize="12"/>
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding ErrorSummary}" Foreground="#DC3545" FontSize="11" Margin="28,4,0,0" FontStyle="Italic" TextWrapping="Wrap" MaxWidth="700">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding FailedChanges}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <CheckBox x:Name="chkPrettier" IsChecked="True" Grid.Row="1" Content="Run Prettier --write" Margin="0,0,0,10" Foreground="#005A9E"/>
+        <Button x:Name="btnApply" Grid.Row="2" Content="Apply Changes" Height="40" FontWeight="Bold" Background="#FFF9C4" Click="BtnApply_Click"/>
+    </Grid>
+</Window>
